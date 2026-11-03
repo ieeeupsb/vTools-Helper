@@ -116,13 +116,6 @@ Header, Footer, Agenda and Time Zone (time zone comes from Options), and anythin
 └── LICENSE              # GPL-3.0
 ```
 
-## Push your changes
-
-```
-./push.sh "commit message"
-```
-
-The first run asks for your own GitHub repo URL and keeps the original as `upstream`.
 
 ## License
 
