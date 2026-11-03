@@ -9425,6 +9425,7 @@ function saveOptions() {
     coHostNotify: document.getElementById("opt_cohost_notify").checked,
     // Save innerHTML from rich text content editable element
     extraContact: document.getElementById("opt_extra_contact").innerHTML,
+    extraContactMigrated: true,
     timezone: document.getElementById("opt_timezone").value,
     defaultTags: document.getElementById("opt_default_tags").value,
     address: document.getElementById("opt_address").value,
@@ -9501,6 +9502,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("opt_category").addEventListener("change", (e) => populateOptSubcategories(e.target.value, ""));
 });
 
+const DEFAULT_EXTRA_CONTACT = "<p>Follow us: <a href=\"https://www.instagram.com/ieeeupsb/\">Instagram</a> | <a href=\"https://www.linkedin.com/company/ieee-up-sb/posts/\">LinkedIn</a> | <a href=\"http://nuieee.fe.up.pt/\">Website</a></p>";
+
 function restoreOptions() {
   chrome.storage.sync.get(
     {
@@ -9517,7 +9520,8 @@ function restoreOptions() {
       coHostOu: "",
       coHostEmail: "",
       coHostNotify: false,
-      extraContact: "",
+      extraContact: "<p>Follow us: <a href=\"https://www.instagram.com/ieeeupsb/\">Instagram</a> | <a href=\"https://www.linkedin.com/company/ieee-up-sb/posts/\">LinkedIn</a> | <a href=\"http://nuieee.fe.up.pt/\">Website</a></p>",
+      extraContactMigrated: false,
       timezone: "Europe/Madrid",
       defaultTags: "#SB #UNI",
       address: "address",
@@ -9551,7 +9555,8 @@ function restoreOptions() {
       document.getElementById("opt_cosponsor").value = items.cosponsor;
       
       // Set innerHTML for rich text content editable element
-      document.getElementById("opt_extra_contact").innerHTML = items.extraContact;
+      document.getElementById("opt_extra_contact").innerHTML =
+        !items.extraContactMigrated && !items.extraContact ? DEFAULT_EXTRA_CONTACT : items.extraContact;
 
       document.getElementById("opt_timezone").value = items.timezone;
       document.getElementById("opt_default_tags").value = items.defaultTags;
@@ -9609,3 +9614,53 @@ function refreshOuDatalist() {
     });
 }
 document.getElementById("opt_ou_list")?.addEventListener("input", refreshOuDatalist);
+
+
+// ---- Export / Import settings ----
+(function () {
+  const CFG_TYPE = "vtools-helper-options";
+  const msg = (text, ok) => {
+    const el = document.getElementById("cfg_status");
+    el.textContent = text;
+    el.style.color = ok ? "#1a7f37" : "#c62828";
+  };
+
+  document.getElementById("export_btn").addEventListener("click", () => {
+    chrome.storage.sync.get(null, (items) => {
+      const data = { _type: CFG_TYPE, _version: 1, settings: items };
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "vtools-helper-settings.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      msg("Settings exported.", true);
+    });
+  });
+
+  const fileInput = document.getElementById("import_file");
+  document.getElementById("import_btn").addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    fileInput.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      let data;
+      try {
+        data = JSON.parse(reader.result);
+      } catch (e) {
+        return msg("Import failed: not a valid JSON file.", false);
+      }
+      if (!data || data._type !== CFG_TYPE || !data.settings || typeof data.settings !== "object" || Array.isArray(data.settings)) {
+        return msg("Import failed: not a vTools Helper settings file.", false);
+      }
+      chrome.storage.sync.set(data.settings, () => {
+        if (chrome.runtime.lastError) return msg("Import failed: " + chrome.runtime.lastError.message, false);
+        msg("Settings imported and set as defaults. Reloading...", true);
+        setTimeout(() => location.reload(), 600);
+      });
+    };
+    reader.readAsText(file);
+  });
+})();

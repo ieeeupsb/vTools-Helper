@@ -69,11 +69,38 @@
       pointer-events: none;
       display: block;
     }
+
+    .about-box { background:#f0f6fb; border:1px solid #cfe0ee; border-radius:8px; padding:14px 16px; margin-bottom:20px; }
+    .about-box p { margin:0 0 10px; font-size:13px; color:#333; }
+    .link-btn { display:inline-block; padding:8px 14px; margin:0 6px 6px 0; border-radius:6px; color:#fff !important; text-decoration:none; font-size:13px; font-weight:600; }
+    .link-btn.ig { background:#E4405F; } .link-btn.li { background:#0A66C2; } .link-btn.web { background:#00629B; }
+    .link-btn:hover { opacity:.85; }
+    .cfg-box { border:1px solid #ddd; border-radius:8px; padding:14px 16px; margin-bottom:20px; background:#fafafa; }
+    .cfg-box button { padding:8px 14px; margin-right:8px; border:0; border-radius:6px; background:#00629B; color:#fff; cursor:pointer; font-size:13px; }
+    .cfg-box small { display:block; margin-top:8px; color:#666; }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>vTools Extension Preferences</h2>
+
+    <div class="about-box">
+      <p><b>vTools Event Autofill Assistant</b> fills the IEEE vTools "Create Event" form from a pop-up or a Markdown file. Set your defaults below and click <b>Save Settings</b>. Based on
+        <a href="https://github.com/GBAS-BCN/vTools-Helper" target="_blank" rel="noopener">GBAS-BCN/vTools-Helper</a> (GPL-3.0), extended by IEEE UP SB.</p>
+      <a class="link-btn ig" href="https://www.instagram.com/ieeeupsb/" target="_blank" rel="noopener">Instagram</a>
+      <a class="link-btn li" href="https://www.linkedin.com/company/ieee-up-sb/posts/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="link-btn web" href="http://nuieee.fe.up.pt/" target="_blank" rel="noopener">Website</a>
+    </div>
+
+    <div class="cfg-box">
+      <b>Backup / share settings</b><br><br>
+      <button type="button" id="export_btn">Export settings</button>
+      <button type="button" id="import_btn">Import settings</button>
+      <input type="file" id="import_file" accept="application/json,.json" style="display:none" />
+      <small>Export downloads your last saved settings as a JSON file. Import loads such a file and makes it your defaults. Click Save Settings first if you changed something.</small>
+      <div id="cfg_status" style="margin-top:8px;font-size:13px;"></div>
+    </div>
+
 
     <div class="form-group">
       <label for="opt_ieee_attending">Default IEEE Members Attending</label>

@@ -25,6 +25,7 @@ Fork of [GBAS-BCN/vTools-Helper](https://github.com/GBAS-BCN/vTools-Helper) (GPL
 | **Registration** | Link, survey URL, registration type, custom registration questions (Text / Multiple Choice). |
 | **Tags / WIE** | Default tags from Options plus per-event tags; WIE checkbox. |
 | **Options page** | Defaults for host OU, email, cosponsor, OU list, co-host, timezone, location, tags, attending numbers, category/subcategory. |
+| **Export / Import settings** | Options page buttons save your settings to a JSON file and load one back as your defaults. Handy to share one config across a team or browser. |
 
 ## Install
 

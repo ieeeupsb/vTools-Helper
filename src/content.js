@@ -27,7 +27,8 @@
       coHostOu: "",
       coHostEmail: "",
       coHostNotify: false,
-      extraContact: "",
+      extraContact: "<p>Follow us: <a href=\"https://www.instagram.com/ieeeupsb/\">Instagram</a> | <a href=\"https://www.linkedin.com/company/ieee-up-sb/posts/\">LinkedIn</a> | <a href=\"http://nuieee.fe.up.pt/\">Website</a></p>",
+      extraContactMigrated: false,
       timezone: "Europe/Madrid",
       defaultTags: "#SB #UNI",
       address: "address",
@@ -45,6 +46,8 @@
       customQuestions: []
     },
     (items) => {
+      // One-time: an empty saved Extra Contact (never edited after this feature) gets the default
+      if (!items.extraContactMigrated && !items.extraContact) items.extraContact = "<p>Follow us: <a href=\"https://www.instagram.com/ieeeupsb/\">Instagram</a> | <a href=\"https://www.linkedin.com/company/ieee-up-sb/posts/\">LinkedIn</a> | <a href=\"http://nuieee.fe.up.pt/\">Website</a></p>";
       userConfig = items;
     }
   );
