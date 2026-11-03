@@ -9598,6 +9598,23 @@ function restoreOptions() {
   );
 }
 
+function bindOuFocusClear() {
+  ["opt_host_ou", "opt_cohost_ou"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el || el.dataset.ouBound) return;
+    el.dataset.ouBound = "1";
+    let stash = "";
+    el.addEventListener("focus", () => {
+      stash = el.value;
+      el.value = "";
+    });
+    el.addEventListener("blur", () => {
+      if (!el.value.trim()) el.value = stash;
+    });
+  });
+}
+document.addEventListener("DOMContentLoaded", bindOuFocusClear);
+
 function refreshOuDatalist() {
   const dl = document.getElementById("ou_datalist");
   if (!dl) return;

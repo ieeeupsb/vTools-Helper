@@ -27,32 +27,150 @@ Fork of [GBAS-BCN/vTools-Helper](https://github.com/GBAS-BCN/vTools-Helper) (GPL
 | **Options page** | Defaults for host OU, email, cosponsor, OU list, co-host, timezone, location, tags, attending numbers, category/subcategory. |
 | **Export / Import settings** | Options page buttons save your settings to a JSON file and load one back as your defaults. Handy to share one config across a team or browser. |
 
-## Install
+## Install in Chrome / Chromium (step by step)
 
-1. Clone or download this repo.
-2. Open `chrome://extensions` (Chrome, Brave, Edge or any Chromium browser).
-3. Turn on **Developer mode**.
-4. Click **Load unpacked** and select the folder with `manifest.json`.
-5. After any code change: click the reload icon on the extension card, then press F5 on the vTools tab.
+> The extension is **not** on the Chrome Web Store. You load it yourself as an *unpacked extension*. It takes about one minute and works in every Chromium browser: **Google Chrome, Microsoft Edge, Brave, Opera, Vivaldi, Chromium**. (Firefox and Safari are not supported.)
+
+### 1. Get the code
+
+Pick one:
+
+- **Download ZIP (easiest):** on the GitHub page click **Code → Download ZIP**, then **extract** it. Do not load the `.zip` itself.
+- **Git:**
+  ```bash
+  git clone https://github.com/ieeeupsb/vTools-Helper.git
+  ```
+
+You should now have a folder that contains `manifest.json` directly inside it. **That is the folder you will select.** Keep it somewhere permanent (e.g. `Documents/vTools-Helper`): if you move or delete it, the extension stops working.
+
+### 2. Open the extensions page
+
+Type this in the address bar and press Enter:
+
+| Browser | Address |
+|---|---|
+| Chrome | `chrome://extensions` |
+| Edge | `edge://extensions` |
+| Brave | `brave://extensions` |
+| Opera | `opera://extensions` |
+| Vivaldi | `vivaldi://extensions` |
+
+### 3. Turn on Developer mode
+
+Toggle **Developer mode** (top-right corner in Chrome/Brave, left sidebar in Edge). New buttons appear: *Load unpacked*, *Pack extension*, *Update*.
+
+### 4. Load the extension
+
+1. Click **Load unpacked**.
+2. Select the folder that contains `manifest.json` (not a parent folder, not `src/`).
+3. Click **Select Folder / Open**.
+
+The card **vTools IEEE Event Autofill Assistant** now appears in the list. If it shows a red **Errors** button, see *Troubleshooting* below.
+
+### 5. Pin it (recommended)
+
+Click the puzzle-piece icon in the toolbar, then the pin next to the extension, so the icon is always visible.
+
+### 6. Configure once
+
+Right-click the extension icon → **Options** (or **Details → Extension options**). Set your OU list, host OU, co-host, location, time zone, tags, default category. Click **Save**.
+
+### Update later
+
+- ZIP: download the new ZIP, extract over the old folder (same location).
+- Git: `git pull`.
+- Then in `chrome://extensions` click the **reload** icon on the extension card, and press **F5** on any open vTools tab.
+
+> Chrome may show *"Disable developer mode extensions"* on startup. Click the X / keep it. Do not click Disable.
+
+### Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `Manifest file is missing or unreadable` | You selected the wrong folder. Select the one with `manifest.json` directly inside. |
+| Cannot select a `.zip` | Extract it first. |
+| Icon does nothing / no **⚡ Fill Event Form** button | Be logged in to vTools and on `https://events.vtools.ieee.org/tego_/event/create`. Press F5 after loading or reloading the extension. |
+| Extension disappeared after moving the folder | Load it again from the new location. |
+| Work/school managed browser blocks it | Admin policy disables developer mode. Use a personal browser profile. |
+| Options not saved | Click **Save** at the bottom of the Options page. |
 
 ## Use
 
-1. **Options (once):** right-click the extension icon → **Options**. Set your OU list, host, co-host, location, timezone, tags, default category. Click **Save**.
-2. Log in to vTools, then click the extension icon. It opens `https://events.vtools.ieee.org/tego_/event/create`.
-3. Click the floating **⚡ Fill Event Form** button.
-4. Either fill the modal by hand, or **import a `.md` file** (see below).
-5. Click **Autofill Form** and wait a few seconds. vTools loads states, subcategories and speaker blocks from the server, so filling is sequential. The modal closes when done.
-6. Review the page and submit the event yourself. The extension never submits for you.
+1. Log in to vTools, then click the extension icon. It opens `https://events.vtools.ieee.org/tego_/event/create`.
+2. Click the floating **⚡ Fill Event Form** button.
+3. Either fill the modal by hand, or **import a `.md` file** (see below).
+4. Click **Autofill Form** and wait a few seconds. vTools loads states, subcategories and speaker blocks from the server, so filling is sequential. The modal closes when done.
+5. Review the page and submit the event yourself. The extension never submits for you.
 
-## Markdown format
+Host, location, time zone and default tags come from the **Options** page, not from the Markdown file (the Markdown can override location and co-host).
 
-Copy `templates/event-template.md` and edit it. Rules:
+## Markdown event template
+
+Write each event in a `.md` file, import it in the modal, and the form is filled for you. Start from `templates/event-template.md` (also downloadable from the modal) and copy-edit the example files in `examples/`.
+
+### Quick start
+
+1. Copy `templates/event-template.md` to a new file, e.g. `my-workshop.md`.
+2. Edit the values after each `Key:`. Delete the value to skip a field.
+3. In vTools click **⚡ Fill Event Form**, then under **Import from Markdown (.md)** choose your file. The modal fields fill in and any problem is shown as a warning.
+4. Check the modal, then click **Autofill Form**.
+
+### The template
+
+```markdown
+# Event
+
+Title: My Event Title
+Start: 2026-11-20 18:00
+End: 2026-11-20 20:00
+Category: Technical
+Subcategory:
+WIE: no
+Tags: #AI #Workshop #City #IEEE
+Registration Link:
+Survey URL:
+Co-Host OU:
+Co-Host Email:
+Location Type: In-Person
+Address: 123 Example Street
+Address 2:
+Building:
+Room:
+City: Exampleville
+Country: United States
+State: California
+Postal Code: 00000
+Map URL:
+Virtual Info:
+IEEE Attending:
+Guests Attending:
+
+## Description
+
+Write the event description here. Supports **bold**, *italic* and lists:
+
+- first point
+- second point
+
+## Speaker 1
+
+First Name: Jane
+Last Name: Doe
+Preferred Name: Jane
+Bio:
+Short biography of the speaker. Can have **bold**, *italic* and
+- lists
+```
+
+### Rules
 
 - Header lines are `Key: value`, one per line. Empty value = skipped.
+- Key names are not case sensitive. Keep them spelled as in the table below.
 - Dates are `YYYY-MM-DD HH:MM` (24h).
-- `## Description` starts the description. It supports `**bold**`, `*italic*`, `-` lists and `1.` lists.
-- `## Speaker 1`, `## Speaker 2`... start each speaker. `Bio:` runs until the next `##` heading.
+- `## Description` starts the description. It supports `**bold**`, `*italic*`, `-` lists and `1.` lists. It runs until the next `##` heading.
+- `## Speaker 1`, `## Speaker 2`... start each speaker (add as many as you need). `Bio:` runs until the next `##` heading.
 - `<!-- comments -->` are ignored.
+- Save the file as UTF-8 (accents are fine).
 
 ### Keys
 
@@ -112,8 +230,7 @@ Header, Footer, Agenda and Time Zone (time zone comes from Options), and anythin
 │   ├── options.js       # Preferences storage + logic
 │   └── styles.css       # Button, modal and editor styling
 ├── templates/           # Empty event template
-├── examples/            # Filled example events (fake data)
-├── push.sh              # Commit + push helper
+├── examples/            # Filled sample events (fake data)
 └── LICENSE              # GPL-3.0
 ```
 

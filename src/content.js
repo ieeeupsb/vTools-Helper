@@ -510,6 +510,21 @@
     speakerCountInput.addEventListener("input", renderSpeakerFields);
     renderSpeakerFields();
 
+    // Datalist filters by current value; prefilled field shows only the match.
+    // Clear on focus so full list appears, restore on blur if left empty.
+    ["v_host_ou", "v_cohost_ou"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      let stash = "";
+      el.addEventListener("focus", () => {
+        stash = el.value;
+        el.value = "";
+      });
+      el.addEventListener("blur", () => {
+        if (!el.value.trim()) el.value = stash;
+      });
+    });
+
     document.getElementById("v_cohost_enable").addEventListener("change", (ev) => {
       document.getElementById("v_cohost_fields").style.display = ev.target.checked ? "flex" : "none";
     });
