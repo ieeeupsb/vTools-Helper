@@ -1,104 +1,129 @@
 # IEEE vTools Event Autofill Assistant
 
-An intuitive Browser Extension designed for IEEE Student Branches, Chapters, and Organizational Units to streamline and automate event creation on [IEEE vTools Events](https://events.vtools.ieee.org/).
+<p align="center">
+  <a href="https://www.instagram.com/ieeeupsb/"><img alt="Instagram" src="https://img.shields.io/badge/Instagram-@ieeeupsb-E4405F?style=for-the-badge&logo=instagram&logoColor=white"></a>
+  <a href="https://www.linkedin.com/company/ieee-up-sb/posts/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-IEEE%20UP%20SB-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+  <a href="http://nuieee.fe.up.pt/"><img alt="Website" src="https://img.shields.io/badge/Website-nuieee.fe.up.pt-00629B?style=for-the-badge&logo=ieee&logoColor=white"></a>
+</p>
 
-## 🚀 Features
+Browser extension for IEEE Student Branches, Chapters and other Organizational Units. It fills the [IEEE vTools](https://events.vtools.ieee.org/) **Create Event** form for you, either from a pop-up form or from a **Markdown (`.md`) file** that holds all the event information.
 
-* **⚡ One-Click Redirect & Quick Fill:**
+Fork of [GBAS-BCN/vTools-Helper](https://github.com/GBAS-BCN/vTools-Helper) (GPL-3.0), extended with Markdown import, a co-host, an editable OU list, and category/subcategory defaults.
 
-  * Clicking the toolbar icon instantly redirects you to the IEEE vTools event creation page (`https://events.vtools.ieee.org/tego_/event/create`).
+## What it can do
 
-  * If you are already on the creation page, clicking the toolbar icon (or the floating on-screen button) opens the interactive autofill modal.
+| Function | Description |
+|---|---|
+| **Markdown import** | Pick a `.md` file in the modal; every field is filled from it (title, dates, category, location, speakers, description...). |
+| **Event template** | Download/copy a ready template from the modal or from `templates/event-template.md`. |
+| **Interactive modal** | Fill or correct any field by hand before pressing **Autofill Form**. Rich-text editor for description and speaker bios. |
+| **Category + Subcategory** | All 6 vTools categories and their subcategories, dependent dropdown (disabled for Technical). Default set in Options. |
+| **Host / Co-Host** | Choose from an editable OU list (Options). Co-host is reused on repeat autofill, so no duplicate blocks. |
+| **Location** | In-Person, Virtual or Hybrid. Address, building, room, city, postal code, map URL, virtual info. Country/State picked by name. |
+| **Speakers** | Any number of speakers: first/last/preferred name and bio. |
+| **Attendance** | IEEE members / guests attending, default `0` (leave empty for future events). |
+| **Registration** | Link, survey URL, registration type, custom registration questions (Text / Multiple Choice). |
+| **Tags / WIE** | Default tags from Options plus per-event tags; WIE checkbox. |
+| **Options page** | Defaults for host OU, email, cosponsor, OU list, co-host, timezone, location, tags, attending numbers, category/subcategory. |
 
-* **📝 Interactive Event Modal:**
+## Install
 
-  * Enter essential details like Title, Start/End times, Description, Speaker bios, and Attendance numbers in a clean pop-up interface.
+1. Clone or download this repo.
+2. Open `chrome://extensions` (Chrome, Brave, Edge or any Chromium browser).
+3. Turn on **Developer mode**.
+4. Click **Load unpacked** and select the folder with `manifest.json`.
+5. After any code change: click the reload icon on the extension card, then press F5 on the vTools tab.
 
-  * **Rich Text Editors:** Built-in formatting tools (Bold, Italic, Lists) for event descriptions and speaker biographies.
+## Use
 
-  * Automatic time calculation (defaults to 2-hour duration).
+1. **Options (once):** right-click the extension icon → **Options**. Set your OU list, host, co-host, location, timezone, tags, default category. Click **Save**.
+2. Log in to vTools, then click the extension icon. It opens `https://events.vtools.ieee.org/tego_/event/create`.
+3. Click the floating **⚡ Fill Event Form** button.
+4. Either fill the modal by hand, or **import a `.md` file** (see below).
+5. Click **Autofill Form** and wait a few seconds. vTools loads states, subcategories and speaker blocks from the server, so filling is sequential. The modal closes when done.
+6. Review the page and submit the event yourself. The extension never submits for you.
 
-* **⚙️ Fully Configurable Default Preferences:**
+## Markdown format
 
-  * Right-click the extension icon and select **Options** to configure your default settings.
+Copy `templates/event-template.md` and edit it. Rules:
 
-  * Save default Host OU, Contact Email, Cosponsors, Location details (Country & State), Timezone, and Default Tags (`#Uni`, `#SB`, etc.).
+- Header lines are `Key: value`, one per line. Empty value = skipped.
+- Dates are `YYYY-MM-DD HH:MM` (24h).
+- `## Description` starts the description. It supports `**bold**`, `*italic*`, `-` lists and `1.` lists.
+- `## Speaker 1`, `## Speaker 2`... start each speaker. `Bio:` runs until the next `##` heading.
+- `<!-- comments -->` are ignored.
 
-  * Toggle options for Survey URLs, Registration Types (External, Standard, None), and custom registration questions.
+### Keys
 
-* **🤖 Smart Form Manipulation:**
+| Key | Notes |
+|---|---|
+| `Title`, `Start`, `End` | Required: Title and Start. If End is missing, it is Start + 2 h. |
+| `Category` | Professional, Technical, Nontechnical, Administrative, Humanitarian, Pre-U STEM Program |
+| `Subcategory` | Optional, matched by name (see below). Technical has none. |
+| `WIE` | `yes` / `no` |
+| `Tags` | e.g. `#AI #Workshop #IEEE` |
+| `Registration Link`, `Survey URL` | URLs |
+| `Co-Host OU`, `Co-Host Email` | Enables the co-host block |
+| `Location Type` | `In-Person`, `Virtual` or `Hybrid` |
+| `Address`, `Address 2`, `Building`, `Room`, `City`, `Postal Code`, `Country`, `State`, `Map URL` | Country and State by name, e.g. `Portugal` / `Norte` |
+| `Virtual Info` | Link or instructions for virtual/hybrid events |
+| `IEEE Attending`, `Guests Attending` | Numbers |
+| `First Name`, `Last Name`, `Preferred Name`, `Bio` | Inside a `## Speaker N` section |
 
-  * Automatically handles dynamic asynchronous dependencies on vTools (such as fetching states based on country selection, subcategories based on categories, and dynamic speaker fields).
+### Categories and subcategories
 
-  * Inject custom registration questions (Text or Multiple Choice options) automatically.
+| Category | Subcategories |
+|---|---|
+| Professional | Continuing Education, Professional Development, Industry Relations, Professional (Other) |
+| Technical | none |
+| Nontechnical | Social, Awards Dinner, Pre-University Activities, Nontechnical (Other) |
+| Administrative | ExCom, Officer Training |
+| Humanitarian | SIGHT, Other |
+| Pre-U STEM Program | Camp, Career Day, Competition/STEM Fairs, Girls in STEM, Industry/Company Tour, Mentoring, Parent Program, Student Workshop, Teacher Workshop |
 
-## 📥 Installation Guide
+Matching ignores case, spaces and punctuation. Unknown values show a warning in the modal and are left unchanged.
 
-Since this extension is distributed via source code, follow these steps to install it in Google Chrome, Brave, Edge, or any Chromium-based browser:
+### Templates and examples
 
-1. **Clone or Download this Repository:**
+- `templates/event-template.md`: empty template to copy (same as the modal's "Download template" link)
+- `examples/technical-workshop.md`: Technical, in-person, two speakers
+- `examples/administrative-meeting.md`: Administrative → ExCom
+- `examples/virtual-talk.md`: Professional → Professional Development, virtual
+- `examples/hybrid-social.md`: Nontechnical → Social, hybrid
+- `examples/prestem-workshop.md`: Pre-U STEM → Girls in STEM
 
-   ```bash
-   git clone https://github.com/your-username/vtools-autofill-assistant.git
-   ```
+All names, addresses, emails and OU codes in them are fake. Replace them with your own.
 
-   *(Or download and extract the ZIP archive).*
+## Not covered yet
 
-2. **Open Extensions Page:**
+Header, Footer, Agenda and Time Zone (time zone comes from Options), and anything the form needs beyond the fields above. Fill those by hand.
 
-   * Open Chrome and navigate to `chrome://extensions/`.
-
-3. **Enable Developer Mode:**
-
-   * Toggle the **Developer mode** switch in the top-right corner.
-
-4. **Load Unpacked Extension:**
-
-   * Click **Load unpacked** in the top-left menu.
-
-   * Select the directory containing this project (`manifest.json` folder).
-
-## 🛠️ Usage
-
-1. **Configure Your Preferences:**
-
-   * Right-click the extension toolbar icon and choose **Options** (or click details on `chrome://extensions`).
-
-   * Enter your default IEEE Organizational Unit details, address, timezone, and registration preferences, then click **Save Settings**.
-
-2. **Creating an Event:**
-
-   * **Step 1:** Click the extension icon in your browser toolbar to automatically open `https://events.vtools.ieee.org/tego_/event/create`.
-
-   * **Step 2:** Click the floating **⚡ Fill Event Form** button on the bottom right of the vTools creation page.
-
-3. **Autofilling:**
-
-   * Fill out the quick popup modal with your specific event details (title, dates, speakers).
-
-   * Click **Autofill Form** — the extension will populate all standard and custom fields on the page.
-
-⏳ **Note on Processing Time:**
-Because IEEE vTools relies on server-side requests to dynamically load state options, subcategories, speaker fields, and custom registration blocks, **autofilling may take a few seconds to finish completely**. Please wait a moment while the extension sequentially fills in all dynamic sections. it closes automatically when it's finished, allowing you to review before submitting the event!
-
-
-## 📁 Repository Structure
+## Files
 
 ```
 .
-├── manifest.json      # Extension Manifest V3 configuration
-├── background.js      # Service worker for handling action clicks & tab events
-├── content.js         # Content script executing modal & form population logic
-├── options.html       # Extension preferences options page UI
-├── options.js         # Preferences storage & logic handling
-├── styles.css         # Styling for floating button, modals, and RTE controls
-└── LICENSE            # GNU General Public License v3.0
+├── manifest.json        # Manifest V3 config (load this folder as unpacked)
+├── src/
+│   ├── background.js    # Service worker: toolbar click → open create page / modal
+│   ├── content.js       # Modal, Markdown apply, form population logic
+│   ├── md-import.js     # Markdown parser + template (also runs in Node)
+│   ├── options.html     # Preferences page
+│   ├── options.js       # Preferences storage + logic
+│   └── styles.css       # Button, modal and editor styling
+├── templates/           # Empty event template
+├── examples/            # Filled example events (fake data)
+├── push.sh              # Commit + push helper
+└── LICENSE              # GPL-3.0
 ```
 
-## 🤝 Contributing
+## Push your changes
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/GBAS-BCN/vTools-Helper/issues) if you want to contribute.
+```
+./push.sh "commit message"
+```
 
-## 📜 License
+The first run asks for your own GitHub repo URL and keeps the original as `upstream`.
 
-Distributed under the GNU General Public License v3.0 (`GPL-3.0`). See `LICENSE` for details.
+## License
+
+GPL-3.0. See `LICENSE`.

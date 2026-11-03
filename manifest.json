@@ -17,17 +17,17 @@
     "default_title": "Open vTools Create Event"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "src/background.js"
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "src/options.html",
     "open_in_tab": true
   },
   "content_scripts": [
     {
       "matches": ["https://events.vtools.ieee.org/tego_/event/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"]
+      "js": ["src/md-import.js", "src/content.js"],
+      "css": ["src/styles.css"]
     }
   ]
 }
