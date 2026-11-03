@@ -22,7 +22,7 @@
       guestsAttendingDefault: "0",
       categoryDefault: "2",
       subcategoryDefault: "",
-      ouList: "SBA00000 - Example University, WIE\nSBC00000 - Example University, CS11\nSBC00000A - Example University, AES10\nSBC00000B - Example University, PE31\nSTB00000 - Example University",
+      ouList: "SBA80701 - Universidade do Porto, WIE\nSBC80701 - Universidade do Porto, RA24\nSBC80701A - Universidade do Porto, EMB18\nSBC80701B - Universidade do Porto, PE31\nSBC80701C - Universidade do Porto, C16\nSBC80701D - Universidade do Porto,AES10\nSTB80701 - Universidade do Porto",
       coHostEnabled: false,
       coHostOu: "",
       coHostEmail: "",
@@ -320,7 +320,7 @@
         <div id="v_cohost_fields" style="display: ${userConfig.coHostEnabled ? "flex" : "none"}; gap: 10px;">
           <div class="vtools-form-group" style="flex: 1;">
             <label>Co-Host Organizational Unit *</label>
-            <input type="text" id="v_cohost_ou" list="v_ou_list" value="${(userConfig.coHostOu || "").replace(/"/g, "&quot;")}" placeholder="e.g. SBC00000A - Example University, AES10" />
+            <input type="text" id="v_cohost_ou" list="v_ou_list" value="${(userConfig.coHostOu || "").replace(/"/g, "&quot;")}" placeholder="e.g. SBC80701D - Universidade do Porto,AES10" />
           </div>
           <div class="vtools-form-group" style="flex: 1;">
             <label>Co-Host Contact Email *</label>

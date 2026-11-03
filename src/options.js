@@ -9512,7 +9512,7 @@ function restoreOptions() {
       guestsAttendingDefault: "0",
       categoryDefault: "2",
       subcategoryDefault: "",
-      ouList: "SBA00000 - Example University, WIE\nSBC00000 - Example University, CS11\nSBC00000A - Example University, AES10\nSBC00000B - Example University, PE31\nSTB00000 - Example University",
+      ouList: "SBA80701 - Universidade do Porto, WIE\nSBC80701 - Universidade do Porto, RA24\nSBC80701A - Universidade do Porto, EMB18\nSBC80701B - Universidade do Porto, PE31\nSBC80701C - Universidade do Porto, C16\nSBC80701D - Universidade do Porto,AES10\nSTB80701 - Universidade do Porto",
       coHostEnabled: false,
       coHostOu: "",
       coHostEmail: "",
