@@ -9507,7 +9507,7 @@ const DEFAULT_EXTRA_CONTACT = "<p>Follow us: <a href=\"https://www.instagram.com
 function restoreOptions() {
   chrome.storage.sync.get(
     {
-      hostOu: "STBXXXXXXXX - hostOu",
+      hostOu: "STB80701 - Universidade do Porto",
       hostEmail: "email@emailprovider.com",
       notifyImmediately: false,
       cosponsor: "",
@@ -9522,13 +9522,13 @@ function restoreOptions() {
       coHostNotify: false,
       extraContact: "<p>Follow us: <a href=\"https://www.instagram.com/ieeeupsb/\">Instagram</a> | <a href=\"https://www.linkedin.com/company/ieee-up-sb/posts/\">LinkedIn</a> | <a href=\"http://nuieee.fe.up.pt/\">Website</a></p>",
       extraContactMigrated: false,
-      timezone: "Europe/Madrid",
+      timezone: "Europe/Lisbon",
       defaultTags: "#SB #UNI",
-      address: "address",
-      city: "Barcelona",
-      postal: "00000",
-      country: "194",
-      state: "1663",
+      address: "R. Dr. Roberto Frias",
+      city: "Porto",
+      postal: "4200-465",
+      country: "167",
+      state: "1453",
       useSurveyUrl: false,
       regType: "Custom",
       regStartMode: "autofill_time",
